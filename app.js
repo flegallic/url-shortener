@@ -12,7 +12,7 @@ app.use(helmet());
 
 // api access controls
 var cors = require('cors');
-const PORT = 3000;
+const PORT = 80;
 const HOST = '0.0.0.0';
 var corsOptions = { origin: `http://${HOST}:${PORT}`};
 app.use(cors(corsOptions));
