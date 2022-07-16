@@ -39,3 +39,42 @@ In the list bellow, you can see services used:
        - Multiple request simultaneously : 160 requests
        - Instances (min): 1
        - Instances (min): 3
+
+## Javascript
+To build this app, I used Nodejs LTS (version 16), express and PUG template.
+
+### To check valid url format
+source url: https://www.freecodecamp.org/news/check-if-a-javascript-string-is-a-url/
+```
+const isValidUrl = urlString => {
+  var urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+  '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+return !!urlPattern.test(urlString);
+}
+```
+### To generate a key
+source url: https://www.npmjs.com/package/generate-api-key
+```
+const generateKey = require('generate-api-key');
+let urlParams = generateKey({ method: 'base32', max: 6, dashes: false }).substr(0, 6).toString().toLowerCase();
+```
+
+### To limit repeated requests to public APIs
+source url: https://www.npmjs.com/package/express-rate-limit
+```
+const rateLimit = require('express-rate-limit');
+const createRateLimit = rateLimit({
+	windowMs: 60 * 60 * 1000, // 1 hour
+	max: 6, // Limit each IP to 100 requests per window
+	standardHeaders: true, // Return rate limit info in the RateLimit-* headers
+	legacyHeaders: false, // Disable the X-RateLimit-* headers
+  message: "message", 
+    handler: function(req,res) {
+      res.render('index', {err:"Too many request sended from this IP, please try again after an hour"});
+    },
+});
+```
