@@ -90,3 +90,61 @@ const createRateLimit = rateLimit({
     },
 });
 ```
+
+## Create EC2 instance with Terraform (optional)
+Follow the steps to use AWS EC2 service to deploy an instance :
+- Clone the repository
+- Create ssh keys
+```
+ssh-keygen -t rsa -f id_rsa_aws
+```
+- Configure provider.tf file with your AWS credentials
+```
+provider "aws" {
+  region     = "us-east-1"
+  access_key = "xxxxxxxxxxxx"
+  secret_key = "xxxxxxxxxxxx"
+}
+```
+- Add your ssh public key in the ec2.tf file
+```
+resource "aws_key_pair" "admin" {
+  key_name   = "admin"
+  public_key = "ssh-rsa xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+ }
+ resource "aws_instance" "server1" {
+  ami           = "ami-052efd3df9dad4825" #ubuntu free
+  instance_type = "t2.micro"
+  key_name      = "admin"
+  tags = {
+    Name = "ec2-url-shortener"
+  }
+ }
+```
+- Add your public IP in the security_group.tf file
+```
+resource "aws_default_security_group" "default" {
+   vpc_id      = "${aws_default_vpc.default.id}"
+ ingress {
+     # TLS (change to whatever ports you need)
+     from_port   = 22
+     to_port     = 22
+     protocol    = "tcp"
+     # Please restrict your ingress to only necessary IPs and ports.
+     # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
+     cidr_blocks     = ["x.x.x.x/32"]
+   }
+ egress {
+     from_port       = 0
+     to_port         = 0
+     protocol        = "-1"
+     cidr_blocks     = ["0.0.0.0/0"]
+   }
+ }
+```
+- Run command line in the terraform folder
+```
+terraform init
+terraform plan
+terraform apply
+```
