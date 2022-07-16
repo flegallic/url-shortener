@@ -91,7 +91,7 @@ const createRateLimit = rateLimit({
 });
 ```
 
-## Create EC2 instance with Terraform (optional)
+## Create EC2 Instance with Terraform (optional)
 Follow the steps to use AWS EC2 service to deploy an instance :
 - Clone the repository
 - Create ssh keys
@@ -148,3 +148,9 @@ terraform init
 terraform plan
 terraform apply
 ```
+- Connect to your EC2 Instance
+	- Get Public IP Address on current EC2 Instance
+	- Add your ssh key
+	```
+	ssh -i .ssh/id_rsa ubuntu@ec2-XX-XX-XX-XX.compute-1.amazonaws.com
+	```
