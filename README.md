@@ -35,6 +35,9 @@ Url service : https://advize-url-shortener.azurewebsites.net/ \
 The service is free (F1: Free)
 
 In the list bellow, you can see services used:
+- Architecture
+![](appservice-plan-arch.png)
+
 - GitHub
     - deploy source code
     - code: https://github.com/flegallic/url-shortener
