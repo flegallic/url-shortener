@@ -7,11 +7,20 @@ WebApp has been deployed to AWS. \
 Url service : https://rkbvndnxqe.us-east-1.awsapprunner.com/
 
 In the list bellow, you can see services used:
+- Architecture
+![](apprunner-arch)
+
 - Amazon codeCommit
     - deploy source code and compare with GitHub
     - code: ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/advize-url-shortener
 - Amazon ECR
     - fully managed container registry offering high-performance hosting and deploy application images
+    - command line example:
+    ```
+    docker build -t urlshortener .
+    docker tag urlshortener:latest xxxxxxxxxxx.dkr.ecr.us-east-1.amazonaws.com/urlshortener:latest
+    docker push xxxxxxxxxxx.dkr.ecr.us-east-1.amazonaws.com/urlshortener:latest
+    ```
 - AWS App Runner
     - build app from ECR
     - deploy the web application automatically, load balances traffic with encryption, scales to meet the traffic needs
