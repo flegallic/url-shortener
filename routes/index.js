@@ -26,7 +26,6 @@ const createRateLimit = rateLimit({
     },
 });
 
-
 //root page
 router.get('/', function(req,res) {
   res.render('index');
@@ -34,7 +33,9 @@ router.get('/', function(req,res) {
 //post request from form
 router.post('/', createRateLimit, body('urlshortener').isLength({ min: 4 }), (req,res) => {
   const errors = validationResult(req);
-  const userUrlRequest = req.body.urlshortener
+  const userUrlRequest = req.body.urlshortener;
+  const userUrlSplit = userUrlRequest.split('//');
+
     if (!errors.isEmpty()) {
       res.render('index', {err:"Oops! Someting wet wrong..."});
     }
@@ -43,7 +44,7 @@ router.post('/', createRateLimit, body('urlshortener').isLength({ min: 4 }), (re
     }
     else{
       let urlParams = generateKey({ method: 'base32', max: 6, dashes: false }).substr(0, 6).toString().toLowerCase();
-      const urlUser = userUrlRequest + "/" + urlParams
+      const urlUser = userUrlSplit[0] + "//myurl" + "/" + urlParams;
       res.render('index', {msg:"Success! Your link has been generated: ", url:urlUser, urlRoot:userUrlRequest});
     }
     res.end();

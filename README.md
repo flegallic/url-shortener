@@ -29,7 +29,7 @@ In the list bellow, you can see services used:
 - GitHub
     - deploy source code
     - code: https://github.com/flegallic/url-shortener
-- Azure service plan
+- Azure service plan (Linux plan)
     - similar of the container service (ACS)
     - build app from GitHub CI/CD
     - configure an Azure pipeline (ex: https://github.com/flegallic/url-shortener/actions)
